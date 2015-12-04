@@ -1,0 +1,12 @@
+{
+  "name": "Websocket_interface",
+  "version": "0.0.1",
+  "description": "An iterface to handle websockets to various endpoints specified in config.js",
+  "main": "application.js",
+  "dependencies": {
+    "express": "4.*",
+    "socket.io": "*",
+    "body-parser": "*",
+    "express-formidable": "*"
+  }
+}

@@ -1,0 +1,24 @@
+.messages{
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 10%;
+    height: 80%;
+
+}
+
+.message{
+    background: #e1e1e1;
+    border: #c8c8c8 2px solid;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    width: 200px;
+}
+.messagetext{
+    width: 100%;
+}
+
+.sender{
+    width: 100%;
+    margin-bottom: 5px;
+    font-weight: bold;
+}

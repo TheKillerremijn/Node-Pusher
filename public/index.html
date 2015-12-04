@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>socket.io</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var namespace = "status";
+        var socket = io.connect('http://nodejs.doelgroep.tv/' + namespace);
+        socket.on('data', function (data) {
+            var element = document.getElementById("debug");
+            element.innerHTML = data + "<br><br>" + element.innerHTML;
+            console.log("received data on namespace " + namespace);
+        });
+    </script>
+</head>
+<body>
+    <div id="debug">
+    </div>
+</body>
+</html>
