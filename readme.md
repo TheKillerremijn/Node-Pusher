@@ -126,3 +126,9 @@ OR
 OR
 
 401 `{ "message": 'Malformed request: apiKey does not match the one on the namespace' }`
+
+**GET** /namespaces
+
+Returns:
+
+200 `[{"name": \<namespace\>, "clients": 0}]`
