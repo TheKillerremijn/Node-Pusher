@@ -106,10 +106,9 @@ OR
 
 **GET** /\<namespace\>/users
 
-Post data:
+Query data:
 
 apiKey=\<the api key you want to use\>
-data=\<the data you want to send out\>
 
 Returns:
 
