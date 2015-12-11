@@ -7,6 +7,8 @@
     "express": "4.*",
     "socket.io": "*",
     "body-parser": "*",
-    "express-formidable": "*"
+    "express-formidable": "*",
+    "ejs": "*",
+    "serve-favicon": "*"
   }
 }

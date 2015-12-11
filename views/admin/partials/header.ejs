@@ -1,0 +1,41 @@
+<div class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="dropdown" data-target=".navbar-responsive-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="javascript:void(0)">Graphlr</a>
+        </div>
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a>Select Namespace:</a></li>
+                <li class="dropdown">
+                    <a href="#" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle" data-toggle="dropdown" id="dropdownToggle1">Dropdown
+                        <b class="caret"></b></a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownToggle1">
+                        <li><a data-enviroment="538" data-apikey="538" onclick="dropdownClick(this)">538</a></li>
+                        <li><a data-enviroment="test1" data-apikey="test1" onclick="dropdownClick(this)">test1</a></li>
+                        <li><a data-enviroment="test2" data-apikey="test2" onclick="dropdownClick(this)">test2</a></li>
+                        <li><a data-enviroment="test3" data-apikey="test3" onclick="dropdownClick(this)">test3</a></li>
+                        <li><a data-enviroment="test123" data-apikey="test12" onclick="dropdownClick(this)">test123</a></li>
+                        <li><a data-enviroment="status" data-apikey="datmaaktnietuit" onclick="dropdownClick(this)">status</a></li>
+                    </ul>
+                </li>
+                <script>
+                    $("#dropdownToggle1").html(docCookies.getItem("enviroment") + "<b class='caret'></b>");
+                    var dropdownClick = function(e){
+                        var enviroment = $(e).data("enviroment");
+                        var apikey = $(e).data("apikey");
+                        docCookies.setItem("enviroment", enviroment);
+                        docCookies.setItem("apikey", apikey);
+                        console.log("Selected " + enviroment + " " + apikey);
+                        $("#dropdownToggle1").html(enviroment + "<b class='caret'></b>");
+                        updateInfo(); //Instantly fire the update on the information panel
+                    }
+                </script>
+            </ul>
+        </div>
+    </div>
+</div>

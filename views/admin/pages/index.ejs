@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head.ejs %>
+    <meta charset="UTF-8">
+    <title>Admin page</title>
+</head>
+<body>
+    <% include ../partials/header.ejs %>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6 col-md-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Namespace information</div>
+                    <div class="panel-body">
+                        Name: <span id="namespacename">538</span></br>
+                        Connected Clients: <span id="namespaceclients">30</span></br>
+                    </div>
+                    <script>
+                        var updateInfo = function(){
+                            var full = '//'+location.hostname+(location.port ? ':'+location.port: '');
+                            var namespace = docCookies.getItem("enviroment");
+                            var apiKey = docCookies.getItem("apikey");
+                            $.getJSON(full + "/"+namespace+"/users", {apiKey:apiKey}, function(data){
+                                $("#namespacename").html(namespace);
+                                $("#namespaceclients").html(data.length);
+                            })
+                        }
+                        setInterval(updateInfo, 5000);
+                        updateInfo();
+                    </script>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Last Message</div>
+                    <div class="panel-body">
+                        <pre class="well" id="lastmessage">No data has been recieved yet</pre>
+                    </div>
+                    <script>
+                        var lastMessage = function(msg){
+                            console.log("lastMessage " + msg);
+                            try{
+                                var object = JSON.parse(msg);
+                                $("#lastmessage").html(JSON.stringify(object, undefined, 2));
+                                console.log("print as json");
+                            }catch(e){ //Object did not parse as json, so just print the text
+                                $("#lastmessage").html(msg);
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Send Data</div>
+                    <div class="panel-body">
+                        <textarea id="jsonarea" class="well" style="width: 100%; height: 200px; resize: none"></textarea>
+                        <a onclick="prettyPrint()" class="btn btn-raised btn-default btn-sm">Pretty Print</a>
+                        <a onclick="sendData()" class="btn btn-raised btn-primary btn-sm">Send</a>
+                        <script>
+                            function prettyPrint() {
+                                var ugly = $("#jsonarea").val();
+                                var obj = JSON.parse(ugly);
+                                var pretty = JSON.stringify(obj, undefined, 4);
+                                $("#jsonarea").val(pretty);
+                            }
+                            var sendData = function(){
+                                var full = '//'+location.hostname+(location.port ? ':'+location.port: '');
+                                var namespace = docCookies.getItem("enviroment");
+                                var apiKey = docCookies.getItem("apikey");
+                                var senddata = $("#jsonarea").val();
+
+                                if(!(/\S/.test(senddata))) return; //Dont send just whitespace
+
+                                $.post(full + "/"+namespace+"/", {apiKey:apiKey, data: senddata}, function(data){
+                                    console.log("Data sent");
+                                });
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../partials/endbody.ejs %>
+</body>
+</html>

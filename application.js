@@ -33,6 +33,7 @@ io.attach(https);
 var bodyParser = require("body-parser");
 var formidable = require("express-formidable");
 var path = require('path');
+var favicon = require('serve-favicon');
 
 var Namespaces = require("./namespaces"); //Namespace handlers
 var namespaces = new Namespaces(io);
@@ -46,6 +47,7 @@ app.use(bodyParser.urlencoded({ extended: true })); //Allow normal url encoded p
 app.use(formidable.parse()); //Allow multipart post data
 app.use(bodyParser.json()); //Allow raw json data
 app.use("/public", express.static(path.join(__dirname, 'public'))); //Expose /public as a normal webserver
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')))
 
 var sslport = process.env.SSLPORT || 443; //Run on port 443 or otherwise specified
 var port = process.env.PORT || 80; //Run on port 80 or otherwise specified
