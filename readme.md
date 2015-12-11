@@ -106,10 +106,9 @@ OR
 
 **GET** /\<namespace\>/users
 
-Post data:
+Query data:
 
 apiKey=\<the api key you want to use\>
-data=\<the data you want to send out\>
 
 Returns:
 
@@ -126,3 +125,17 @@ OR
 OR
 
 401 `{ "message": 'Malformed request: apiKey does not match the one on the namespace' }`
+
+##Getting additional info##
+
+**GET** /namespaces
+
+Returns:
+
+200 `[{"name": \<namespace\>, "clients": 0}]`
+
+**GET** /pingdom
+
+Returns:
+
+200 `{"error": false, "data": "I'm okay friend. All is good!", "success": true}`

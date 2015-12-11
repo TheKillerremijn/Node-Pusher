@@ -4,31 +4,41 @@ var fs = require("fs");
 var constants = require("constants");
 var config = JSON.parse(fs.readFileSync("config.json")); //import config.json as the config variable
 
-var sslOptions = { //Specify tls options
-    key: fs.readFileSync(__dirname + '/ssl/nodejs.key'),
-    cert: fs.readFileSync(__dirname + '/ssl/nodejs_doelgroep_tv.crt'),
-    ca: [fs.readFileSync(__dirname + '/ssl/COMODORSAAddTrustCA.crt'), fs.readFileSync(__dirname + '/ssl/COMODORSADomainValidationSecureServerCA.crt')],
-    secureOptions: constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_SSLv2,
-    ciphers: [
-        "ECDHE-RSA-AES128-SHA256",
-        "DHE-RSA-AES128-SHA256",
-        "AES128-GCM-SHA256",
-        "!RC4",
-        "HIGH",
-        "!MD5",
-        "!aNULL"
-    ].join(':'),
-    honorCipherOrder: true
-};
+var sslOptions;
+var ssl = true;
+
+try{
+    sslOptions = { //Specify tls options
+        key: fs.readFileSync(__dirname + '/ssl/nodejs.key'),
+        cert: fs.readFileSync(__dirname + '/ssl/nodejs_doelgroep_tv.crt'),
+        ca: [fs.readFileSync(__dirname + '/ssl/COMODORSAAddTrustCA.crt'), fs.readFileSync(__dirname + '/ssl/COMODORSADomainValidationSecureServerCA.crt')],
+        secureOptions: constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_SSLv2,
+        ciphers: [
+            "ECDHE-RSA-AES128-SHA256",
+            "DHE-RSA-AES128-SHA256",
+            "AES128-GCM-SHA256",
+            "!RC4",
+            "HIGH",
+            "!MD5",
+            "!aNULL"
+        ].join(':'),
+        honorCipherOrder: true
+    };
+}catch (e){
+    console.error(e);
+    ssl = false;
+}
+
+if(!ssl) console.log("Starting without ssl");
 
 //Create servers
-var https = require('https').createServer(sslOptions, app);
+if(ssl == true) var https = require('https').createServer(sslOptions, app);
 var http = require("http").createServer(app);
 
 var ioServer = require('socket.io'); //Create socket io server
 var io = new ioServer();
 io.attach(http); //Attach it so it listens to both http and https
-io.attach(https);
+if(ssl == true) io.attach(https);
 
 var bodyParser = require("body-parser");
 var formidable = require("express-formidable");
@@ -52,8 +62,8 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')))
 var sslport = process.env.SSLPORT || 443; //Run on port 443 or otherwise specified
 var port = process.env.PORT || 80; //Run on port 80 or otherwise specified
 
-https.listen(sslport);
-console.log("Listening on port " + sslport);
+if(ssl == true) https.listen(sslport);
+if(ssl == true) console.log("Listening on port " + sslport);
 http.listen(port);
 console.log("Listening on port " + port);
 
@@ -70,7 +80,7 @@ app.get('/namespaces', function(req, res) { //List namespaces and users
     var returnnamespaces = [];
     var registered = namespaces.getNamespaces();
     for(var i=0;i<registered.length;i++){
-        var namespace = {name: registered[i].name, clients: namespaces.getNameSpaceUsers(registered[i].name)};
+        var namespace = {name: registered[i].name, clients: namespaces.getNameSpaceUsers(registered[i].name).length};
 
         returnnamespaces.push(namespace);
     }
