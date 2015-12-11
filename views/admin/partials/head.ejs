@@ -13,3 +13,8 @@
 <script src="/public/cookie.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/public/websocket.js"></script>
+<script>
+    //if cookies dont exist, set them
+    if(!docCookies.hasItem("enviroment")) docCookies.setItem("enviroment", "538");
+    if(!docCookies.hasItem("apikey")) docCookies.setItem("apikey", "538");
+</script>
