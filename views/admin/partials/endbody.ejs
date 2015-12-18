@@ -8,8 +8,33 @@
         lastMessage(datastring);
     };
 
+    var connectionWarning;
+
     websocket.onStatusChange = function(status){
-        console.log("Status Changed: " + status); //TODO Popup status messages
+        var type;
+        var timeout;
+        switch(status){
+            case "connected":
+                type = "success";
+                timeout = 1000;
+                break;
+            case "timeout":
+                type = "warning";
+                break;
+            case "reconnecting":
+                type = "info";
+                break;
+            case "reconnected":
+                type = "success";
+                timeout = 1000;
+                break;
+        }
+        console.log("Status Changed: " + status);
+        if(typeof connectionWarning === "undefined"){
+            connectionWarning = showWarning("Connection Status: " + status, type, timeout);
+        }else{
+            updateWarning(connectionWarning, "Connection Status: " + status, type, timeout)
+        }
     };
 
 </script>

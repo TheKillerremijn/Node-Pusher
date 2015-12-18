@@ -19,7 +19,7 @@
                         <li><a data-enviroment="test1" data-apikey="test1" onclick="dropdownClick(this)">test1</a></li>
                         <li><a data-enviroment="test2" data-apikey="test2" onclick="dropdownClick(this)">test2</a></li>
                         <li><a data-enviroment="test3" data-apikey="test3" onclick="dropdownClick(this)">test3</a></li>
-                        <li><a data-enviroment="test123" data-apikey="test12" onclick="dropdownClick(this)">test123</a></li>
+                        <li><a data-enviroment="test123" data-apikey="test123" onclick="dropdownClick(this)">test123</a></li>
                         <li><a data-enviroment="status" data-apikey="datmaaktnietuit" onclick="dropdownClick(this)">status</a></li>
                     </ul>
                 </li>
@@ -33,6 +33,9 @@
                         console.log("Selected " + enviroment + " " + apikey);
                         $("#dropdownToggle1").html(enviroment + "<b class='caret'></b>");
                         updateInfo(); //Instantly fire the update on the information panel
+                        //Disconnect from the old namespace and connect to the new one
+                        var full = '//'+location.hostname+(location.port ? ':'+location.port: '');
+                        websocket.connect(full + "/" + enviroment);
                     }
                 </script>
             </ul>
