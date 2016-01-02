@@ -3,7 +3,7 @@ var WebSocket = function(endpoint){
     console.log("connecting to " + endpoint);
     this.socket = io(endpoint);
     self.onStatusChange("connecting");
-Q    self.updateEvents = function(){
+    self.updateEvents = function(){
         self.socket.on('data', function (data) {
             self.onData(data);
         });
