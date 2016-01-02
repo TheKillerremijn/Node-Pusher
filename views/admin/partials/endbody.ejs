@@ -2,7 +2,7 @@
 <script src="/public/bootstrap-material/js/ripples.min.js"></script>
 <script>
     var full = '//'+location.hostname+(location.port ? ':'+location.port: '');
-    var websocket = new WebSocket(full+"/538"); //TODO Just connect to 538 for now
+    var websocket = new WebSocket(full+"/"+docCookies.getItem("enviroment"));
 
     websocket.onData = function(datastring){
         lastMessage(datastring);
