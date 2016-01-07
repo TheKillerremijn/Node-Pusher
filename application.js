@@ -70,7 +70,6 @@ passport.deserializeUser(function(user, done) {
     done(null, user);
 });
 
-//TODO Localstrategy
 passport.use(new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password'
