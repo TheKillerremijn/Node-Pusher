@@ -21,11 +21,6 @@ var AdminRoute = function() {
     this.router.get("/login", printLogin, function(req, res){
         res.render("admin/pages/login.ejs", {message: null});
     });
-    //this.router.post('/login',
-    //    passport.authenticate('local', { successRedirect: '/admin',
-    //        failureRedirect: '/admin/login',
-    //        failureFlash: false })
-    //);
     this.router.post('/login', printLogin, function(req, res, next) {
         req.logout();
         passport.authenticate('local', function(err, user, info) {

@@ -19,11 +19,14 @@ namespaces.prototype.getNamespaces = function(){ //Get all namespaces
     return config;
 };
 
-namespaces.prototype.createNamespace = function(namespace, apiKey){ //Create a namespace
-    var space = {name: namespace, auth: apiKey};
+namespaces.prototype.createNamespace = function(namespace, apiKey, persistent){ //Create a namespace
+    var space = {name: namespace, auth: apiKey, persistent: persistent};
     config.push(space); //Write the namespace to the config variable
     this.io.of(space.name); //Register the namespace with socket.io
-    fs.writeFileSync("config.json", JSON.stringify(config, null, 4)); //Write the config var to disk
+    fs.writeFile("config.json", JSON.stringify(config, null, 4), function(err){
+        if(err) console.error(err);
+        else console.log("saved file")
+    }); //Write the config var to disk
     return space;
 };
 
@@ -31,9 +34,13 @@ namespaces.prototype.deleteNameSpace = function(namespace){ //Delete a namespace
     for(var i=0;i < config.length; i++){
         if(namespace.name === config[i].name){
             config.splice(i, 1); //Remove the namespace from the config variable
-            fs.writeFileSync("config.json", JSON.stringify(config, null, 4)); //Write the config var to disk
+            fs.writeFile("config.json", JSON.stringify(config, null, 4), function(err){
+                if(err) console.error(err);
+            }); //Write the config var to disk
+            return true;
         }
     }
+    return false;
 };
 
 namespaces.prototype.getNameSpaceUsers = function(nsp){

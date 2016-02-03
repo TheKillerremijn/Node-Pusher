@@ -86,6 +86,11 @@ var NSPRoute = function(namespaces) {
 
     this.router.post("/create", function(req, res){ //Crate a namespace
         var namespace = namespaces.getNamespace(req.params.namespace); //Get namespace from url
+        var persistent = true;
+        if (typeof (req.body.persistent) !== "undefined"){
+            if((req.body.persistent.toLowerCase() === 'false'))
+                persistent = false;
+        }
         if (typeof (req.body.apiKey) === "undefined"){
             res.status(400);
             res.json({ message: 'Malformed request: no apiKey sent with the request' });
@@ -98,8 +103,8 @@ var NSPRoute = function(namespaces) {
             return;
         }
         console.log("Creating namespace: " + req.params.namespace);
-        namespace = namespaces.createNamespace(req.params.namespace, apiKey); //Create a namespace and send the name back as confirmation
-        res.json({namespace: namespace.name});
+        namespace = namespaces.createNamespace(req.params.namespace, apiKey, persistent); //Create a namespace and send the name back as confirmation
+        res.json({namespace: namespace.name, persistent: persistent});
     });
 
     this.router.post("/delete", function(req, res){ //Delete a namespace

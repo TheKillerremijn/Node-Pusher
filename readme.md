@@ -6,6 +6,7 @@
 Post data:
 
 apiKey=\<the api key you want to use\>
+persistent=\<true|false\> default: true
 
 Returns:
 

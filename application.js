@@ -147,4 +147,20 @@ app.use("/:namespace", nsproute.router); //Bind /:namespace to use namespace rou
 
 io.on('connection', function (socket) { //connecting sockets
     console.log("User has connected ip: " + socket.client.conn.remoteAddress + " id: " + socket.client.id);
+    socket.on('disconnect', function(){
+        if(Object.keys(this.client.nsps).length <= 0) return;
+        var namespace = Object.keys(this.client.nsps)[0];
+        var remaining = Object.keys(this.client.nsps[namespace].nsp.connected).length - 1; //disconnecting user is also in this count, so subtract one
+        console.log('user disconnected from ' + namespace + ', ' + remaining + " remaining");
+
+        var namespaceobject = namespaces.getNamespace(namespace.substring(1));
+
+        if(namespaceobject.persistent == false){
+            if(remaining <= 0){
+                console.log("Removing " + namespaceobject.name);
+                var remove = namespaces.deleteNameSpace(namespaceobject);
+                if(!remove) console.error(namespaceobject.name + " could not be deleted");
+            }
+        }
+    });
 });

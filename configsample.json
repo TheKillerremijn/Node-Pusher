@@ -1,10 +1,12 @@
 [
     {
         "name": "test1",
-        "auth": "test1"
+        "auth": "test1",
+        "persistent": true
     },
     {
         "name": "test2",
-        "auth": "test2"
+        "auth": "test2",
+        "persistent": true
     }
 ]
