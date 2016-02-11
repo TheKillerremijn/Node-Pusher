@@ -15,15 +15,19 @@
                     <a href="#" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle" data-toggle="dropdown" id="dropdownToggle1">Dropdown
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownToggle1">
-                        <li><a data-enviroment="538" data-apikey="538" onclick="dropdownClick(this)">538</a></li>
-                        <li><a data-enviroment="test1" data-apikey="test1" onclick="dropdownClick(this)">test1</a></li>
-                        <li><a data-enviroment="test2" data-apikey="test2" onclick="dropdownClick(this)">test2</a></li>
-                        <li><a data-enviroment="test3" data-apikey="test3" onclick="dropdownClick(this)">test3</a></li>
-                        <li><a data-enviroment="test123" data-apikey="test123" onclick="dropdownClick(this)">test123</a></li>
-                        <li><a data-enviroment="status" data-apikey="datmaaktnietuit" onclick="dropdownClick(this)">status</a></li>
                     </ul>
                 </li>
                 <script>
+                    //Populate dropdown
+                    var full = '//'+location.hostname+(location.port ? ':'+location.port: '');
+                    $.getJSON(full + "/admin/namespaces", function(data){
+                        console.log(data);
+                        var dropdown = $("#nspdropdown");
+                        for(var i in data){
+                            dropdown.append("<li><a data-enviroment='"+data[i].name+"' data-apikey='"+data[i].apiKey+"' onclick='dropdownClick(this)'>"+data[i].name+"</a></li>");
+                        }
+                    })
+
                     $("#dropdownToggle1").html(docCookies.getItem("enviroment") + "<b class='caret'></b>");
                     var dropdownClick = function(e){
                         var enviroment = $(e).data("enviroment");

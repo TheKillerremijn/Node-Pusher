@@ -99,7 +99,7 @@ var NSPRoute = require("./routes/namespaces"); // /:namespace:/ route
 var nsproute = new NSPRoute(namespaces);
 
 var AdminRoute = require("./routes/admin");
-var adminroute = new AdminRoute();
+var adminroute = new AdminRoute(namespaces); // /admin/ route
 
 app.use(bodyParser.urlencoded({extended: true})); //Allow normal url encoded post
 app.use(formidable.parse()); //Allow multipart post data

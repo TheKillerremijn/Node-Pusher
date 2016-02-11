@@ -12,11 +12,21 @@ var printLogin = function(req, res, next){
     return next();
 };
 
-var AdminRoute = function() {
+var AdminRoute = function(namespaces) {
     this.router = express.Router({mergeParams: true});
 
     this.router.get("/", printLogin, ensureAuthenticated, function(req, res){
         res.render("admin/pages/index.ejs");
+    });
+    this.router.get("/namespaces", printLogin, ensureAuthenticated, function(req, res){ //TODO Don't show all namespaces for security reasons
+        var returnnamespaces = [];
+        var registered = namespaces.getNamespaces();
+        for (var i = 0; i < registered.length; i++) {
+            var namespace = {name: registered[i].name, apiKey: registered[i].auth, clients: namespaces.getNameSpaceUsers(registered[i].name).length};
+
+            returnnamespaces.push(namespace);
+        }
+        res.json(returnnamespaces);
     });
     this.router.get("/login", printLogin, function(req, res){
         res.render("admin/pages/login.ejs", {message: null});
