@@ -135,6 +135,14 @@ Returns:
 
 200 `[{"name": \<namespace\>, "clients": 0}]`
 
+**GET** /admin/namespaces
+
+Requires the user to be logged in
+
+Returns:
+
+200 `[{"name": \<namespace\>, "clients": 0, apiKey: <\apikey\>}]`
+
 **GET** /pingdom
 
 Returns:
