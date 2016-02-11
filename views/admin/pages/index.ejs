@@ -13,10 +13,29 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">Namespace information</div>
                     <div class="panel-body">
-                        Name: <span id="namespacename">none</span></br>
-                        Connected Clients: <span id="namespaceclients">0</span></br>
+                        Name: <span id="namespacename">none</span><br>
+                        Connected Clients: <span id="namespaceclients">0</span><br>
+                        apiKey: <span id="apiKey" class="hiddenkey">none</span><span class="badge" id="showkeytoggle"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></span><br>
                     </div>
+                    <style>
+                        .hiddenkey{
+                            background-color: #757575;
+                            color: #757575;
+                            border-radius: 10px;
+                            padding: 3px 0px;
+                            line-height: 1;
+                            vertical-align: middle;
+                            white-space: nowrap;
+                        }
+                        .hiddenkey span{
+                            color: #757575;
+                        }
+                    </style>
                     <script>
+                        $("#showkeytoggle").click(function(){
+                            console.log("click");
+                            $("#apiKey").toggleClass("hiddenkey");
+                        });
                         var updateInfo = function(){
                             var full = '//'+location.hostname+(location.port ? ':'+location.port: '');
                             var namespace = docCookies.getItem("enviroment");
@@ -24,6 +43,7 @@
                             $.getJSON(full + "/"+namespace+"/users", {apiKey:apiKey}, function(data){
                                 $("#namespacename").html(namespace);
                                 $("#namespaceclients").html(data.length);
+                                $("#apiKey").html(apiKey);
                             })
                         }
                         setInterval(updateInfo, 5000);
