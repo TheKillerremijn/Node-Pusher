@@ -1,6 +1,3 @@
-spammer.sh
-nodemon.json
 config.json
-ssl/
 node_modules/
 .idea/
