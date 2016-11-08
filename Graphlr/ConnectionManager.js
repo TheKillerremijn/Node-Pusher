@@ -25,35 +25,35 @@ ConnectionManager.prototype.push = function(pushdata){
 
     var relevantConnections = this.getConnectionsByRoute(route);
     // console.log(relevantConnections);
-    for(var i=0;i<relevantConnections.length;i++){
-        this.pushToConnection(relevantConnections[i], data);
+    for(var matchedroute in relevantConnections){
+        this.pushToConnection(relevantConnections[matchedroute], data, matchedroute, route);
     }
 };
 
 ConnectionManager.prototype.getConnectionsByRoute = function(route){
     console.log('matching');
     var matched = false;
-    var matching = [];
+    var matching = {};
     for(var i=0;i<this.connections.length;i++){
         matched = false;
         for(var j=0;j<this.connections[i].SubscribedTo.length;j++){
             if(pushRoutes.match(this.connections[i].SubscribedTo[j], route)){
-                matched = true;
+                matched = this.connections[i].SubscribedTo[j];
                 break;
             }
         }
-        if(matched) matching.push(this.connections[i]);
+        if(matched != false) matching[matched] = this.connections[i];
     }
     return matching;
 };
 
-ConnectionManager.prototype.pushToConnection = function(connection, data){
+ConnectionManager.prototype.pushToConnection = function(connection, data, matchedroute, route){
     switch(connection.Channel.type){
         case "console":
             console.log("[" + connection.SessionCookie + "] - " + JSON.stringify(data));
             break;
         case "websocket":
-            socketManager.push(connection, data);
+            socketManager.push(connection, data, matchedroute, route);
             break;
     }
 };

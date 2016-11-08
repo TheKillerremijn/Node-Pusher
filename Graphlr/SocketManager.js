@@ -22,10 +22,19 @@ SocketManager.prototype.initServer = function(){
         };
         self.connManager.addConnection(connection);
         socket.on('init', function(data){
+            console.log('init');
             if(typeof data.session !== "undefined") connection.SessionCookie = data.session;
             if(typeof data.subscribe !== "undefined") connection.SubscribedTo = data.subscribe;
             if(typeof data.metadata !== "undefined") connection.Metadata = data.metadata;
         });
+
+        socket.on('subscribe', function(data){
+            if(typeof data === "undefined" || typeof(data[0]) == "undefined") return;
+            console.log('sub to ' + data.join(', '));
+
+            connection.SubscribedTo = connection.SubscribedTo.concat(data);
+        });
+
         socket.on('disconnected', function(){
             //cleanup
             self.connManager.removeConnection(connection);
@@ -33,8 +42,10 @@ SocketManager.prototype.initServer = function(){
     });
 };
 
-SocketManager.prototype.push = function(connection, data){
+SocketManager.prototype.push = function(connection, data, matchedroute, route){
     if(connection.Channel.type !== "websocket") return;
+
+    data = {data: data, route: matchedroute, dataroute: route};
 
     console.log('sent ' + data + " to ", connection.SessionCookie);
     connection.Channel.socket.emit('data', data);
