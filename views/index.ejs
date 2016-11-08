@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io('http://localhost:3000');
+        socket.on('connect', function () {
+            socket.emit('init', {
+                session: 'abcacbacb',
+                subscribe: [
+                    "prepr:538:*",
+                    "112pers:monitor:1234"
+                ]
+            });
+        });
+        socket.on('data', function (data) {
+            console.log(data);
+        });
+    </script>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+<h1><%= title %></h1>
+<p>Welcome to <%= title %></p>
+</body>
+</html>
