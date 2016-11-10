@@ -1,9 +1,11 @@
 var exports = module.exports;
 var pushRoutes = require('./PushRoutes');
 var SocketManager = require('./SocketManager');
-var socketManager;
+var WebPushManager = require('./WebPushManager');
 
 var ConnectionManager = function(){
+    this.webPushManager = new WebPushManager(this);
+    this.webPushManager.initServer();
     this.connections = [
         {
             SessionCookie: "test",
@@ -17,6 +19,7 @@ var ConnectionManager = function(){
             }
         }
     ];
+
 };
 
 ConnectionManager.prototype.push = function(pushdata){
@@ -53,7 +56,10 @@ ConnectionManager.prototype.pushToConnection = function(connection, data, matche
             console.log("[" + connection.SessionCookie + "] - " + JSON.stringify(data));
             break;
         case "websocket":
-            socketManager.push(connection, data, matchedroute, route);
+            this.socketManager.push(connection, data, matchedroute, route);
+            break;
+        case "notification":
+            this.webPushManager.push(connection, data, matchedroute, route);
             break;
     }
 };
@@ -71,7 +77,7 @@ ConnectionManager.prototype.removeConnection = function(conn){
 };
 
 ConnectionManager.prototype.initSocket = function(io){
-    socketManager = new SocketManager(io, this);
+    this.socketManager = new SocketManager(io, this);
 };
 
 module.exports = ConnectionManager;

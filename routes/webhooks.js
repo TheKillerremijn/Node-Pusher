@@ -4,6 +4,10 @@ var connectionManager = new ConnectionManager();
 var router = express.Router();
 var config = require('./../config');
 
+router.post('/notification/subscribe', function(req, res, next){
+    console.log('Recieved subscribe');
+    connectionManager.webPushManager.subscribe(req.body);
+});
 
 router.post('/push', function(req, res, next){
 
