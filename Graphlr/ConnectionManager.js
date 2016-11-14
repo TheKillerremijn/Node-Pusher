@@ -29,7 +29,9 @@ ConnectionManager.prototype.push = function(pushdata){
     var relevantConnections = this.getConnectionsByRoute(route);
     // console.log(relevantConnections);
     for(var matchedroute in relevantConnections){
-        this.pushToConnection(relevantConnections[matchedroute], data, matchedroute, route);
+        for(var i=0;i<relevantConnections[matchedroute].length;i++){
+            this.pushToConnection(relevantConnections[matchedroute][i], data, matchedroute, route);
+        }
     }
 };
 
@@ -45,7 +47,12 @@ ConnectionManager.prototype.getConnectionsByRoute = function(route){
                 break;
             }
         }
-        if(matched != false) matching[matched] = this.connections[i];
+        if(matched != false){
+            if(typeof matching[matched] === "undefined"){
+                matching[matched] = [];
+            }
+            matching[matched].push(this.connections[i]);
+        }
     }
     return matching;
 };
@@ -71,7 +78,7 @@ ConnectionManager.prototype.addConnection = function(conn){
 ConnectionManager.prototype.removeConnection = function(conn){
     for(var i=0;i<this.connections.length;i++){
         if(this.connections[i].SessionCookie == conn.SessionCookie){
-            this.connections[i].splice(i, 1);
+            this.connections.splice(i, 1);
         }
     }
 };

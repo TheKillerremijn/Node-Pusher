@@ -16,7 +16,7 @@
         createCookie('laravel_session', 'test123');
 
         var socket = new GraphlrSocketClient();
-        socket.bind(location.hostname, readCookie('laravel_session'));
+        socket.bind(location.hostname+(location.port ? ':'+location.port: ''), readCookie('laravel_session'));
 
         socket.subscribe('prepr:538:*', function(data){
             console.log(data);

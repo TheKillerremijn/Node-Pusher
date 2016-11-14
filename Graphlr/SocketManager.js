@@ -35,9 +35,11 @@ SocketManager.prototype.initServer = function(){
             connection.SubscribedTo = connection.SubscribedTo.concat(data);
         });
 
-        socket.on('disconnected', function(){
+        socket.on('disconnect', function(){
             //cleanup
+            console.log('disconnect');
             self.connManager.removeConnection(connection);
+            delete connection;
         });
     });
 };
