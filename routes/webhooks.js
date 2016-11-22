@@ -14,7 +14,7 @@ router.post('/push', function(req, res, next){
     var publickey = req.body.public;
     var secret = req.body.secret;
 
-    if(verifyAuth(publickey, secret) == false){
+    if(connectionManager.verifyAuth(publickey, secret) == false){
         res.json({error: true, message: 'Not Authorized'});
         return;
     }
@@ -28,16 +28,6 @@ router.post('/push', function(req, res, next){
     res.json(pushdata);
 });
 
-var verifyAuth = function(publickey, secret){
-    var known = config.pushkeys;
-
-    for(var i=0;i<known.length;i++){
-        if(known[i].public == publickey && known[i].secret == secret){
-            return true;
-        }
-    }
-    return false;
-};
 
 module.exports = router;
 

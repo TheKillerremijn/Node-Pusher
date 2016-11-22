@@ -15,3 +15,18 @@ exports.match = function(route, tomatch){
     }
     return true;
 };
+exports.matchDirectional = function(route, tomatch){
+
+    var routesplit = route.split(':');
+    var tomatchsplit = tomatch.split(':');
+
+    for(var i=0;i<tomatchsplit.length;i++){
+        if(routesplit[i] == "*") return true;
+        if(tomatchsplit[i] == routesplit[i]){
+            continue;
+        }else{
+            return false;
+        }
+    }
+    return true;
+};

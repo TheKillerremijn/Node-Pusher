@@ -2,6 +2,9 @@ var exports = module.exports;
 var pushRoutes = require('./PushRoutes');
 var SocketManager = require('./SocketManager');
 var WebPushManager = require('./WebPushManager');
+var request = require('request');
+var config = require('./../config');
+
 
 var ConnectionManager = function(){
     this.webPushManager = new WebPushManager(this);
@@ -9,6 +12,8 @@ var ConnectionManager = function(){
     this.connections = [
         {
             SessionCookie: "test",
+            Environment: "",
+            Permitted: [],
             SubscribedTo: [
                 "prepr:538:playlist",
                 "112pers:*"
@@ -27,16 +32,30 @@ ConnectionManager.prototype.push = function(pushdata){
     var data = pushdata.data;
 
     var relevantConnections = this.getConnectionsByRoute(route);
-    // console.log(relevantConnections);
+
     for(var matchedroute in relevantConnections){
         for(var i=0;i<relevantConnections[matchedroute].length;i++){
+
+            //Verify Permissions
+
+            var match = false;
+
+            for(var j = 0;j<relevantConnections[matchedroute][i].Permitted.length; j++){
+                if(pushRoutes.matchDirectional(relevantConnections[matchedroute][i].Permitted[j], matchedroute)){
+                    match = true;
+                }
+            }
+
+            if(!match){
+                continue;
+            }
+
             this.pushToConnection(relevantConnections[matchedroute][i], data, matchedroute, route);
         }
     }
 };
 
 ConnectionManager.prototype.getConnectionsByRoute = function(route){
-    console.log('matching');
     var matched = false;
     var matching = {};
     for(var i=0;i<this.connections.length;i++){
@@ -55,6 +74,41 @@ ConnectionManager.prototype.getConnectionsByRoute = function(route){
         }
     }
     return matching;
+};
+
+ConnectionManager.prototype.verifySession = function(conn){
+    var environment = conn.Environment;
+    var session = conn.SessionCookie;
+    //Find url for environment
+    var url = "";
+
+    var known = config.pushkeys;
+
+    for(var i=0;i<known.length;i++){
+        if(known[i].environment == environment){
+            url = known[i].sessionUrl;
+        }
+    }
+    request.get({url: url, qs: {session: session}}, function(err, res, body){
+        try{
+            body = JSON.parse(body);
+            conn.Permitted = body.allowed;
+        }catch(e){
+            console.error(e);
+        }
+    });
+
+};
+
+ConnectionManager.prototype.verifyAuth = function(publickey, secret){
+    var known = config.pushkeys;
+
+    for(var i=0;i<known.length;i++){
+        if(known[i].public == publickey && known[i].secret == secret){
+            return known[i];
+        }
+    }
+    return false;
 };
 
 ConnectionManager.prototype.pushToConnection = function(connection, data, matchedroute, route){

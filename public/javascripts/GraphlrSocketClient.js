@@ -5,23 +5,24 @@ var GraphlrSocketClient = function(){
     this.routes = {};
 };
 
-GraphlrSocketClient.prototype.init = function(sessionid){
+GraphlrSocketClient.prototype.init = function(sessionid, environment){
     var initdata = {
         session: sessionid,
-        subscribe: this.subscribed
+        subscribe: this.subscribed,
+        environment: environment
     };
 
     this.socket.emit('init', initdata);
 };
 
-GraphlrSocketClient.prototype.bind = function(addres, sessionid){
+GraphlrSocketClient.prototype.bind = function(addres, sessionid, environment){
     var self = this;
     this.socket = io(addres);
     this.state = "connecting";
     this.socket.on('connect', function(){
         self.state = "connected";
         console.log('[GraphSocket] Connected to ' + addres);
-        self.init(sessionid);
+        self.init(sessionid, environment);
     });
     this.socket.on('error', function(data){
         console.error('[GraphSocket] ', data);

@@ -13,6 +13,7 @@ SocketManager.prototype.initServer = function(){
             SessionCookie: null,
             SubscribedTo: [
             ],
+            Environment: '',
             Metadata: {},
             Channel: {
                 type: "websocket",
@@ -26,6 +27,8 @@ SocketManager.prototype.initServer = function(){
             if(typeof data.session !== "undefined") connection.SessionCookie = data.session;
             if(typeof data.subscribe !== "undefined") connection.SubscribedTo = data.subscribe;
             if(typeof data.metadata !== "undefined") connection.Metadata = data.metadata;
+            if(typeof data.environment !== "undefined") connection.Environment = data.environment;
+            self.connManager.verifySession(connection);
         });
 
         socket.on('subscribe', function(data){

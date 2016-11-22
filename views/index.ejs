@@ -13,12 +13,12 @@
     <!--<script src="/javascripts/GraphlrPushClient.js"></script>-->
     <script>
 
-        createCookie('laravel_session', 'test123');
+        createCookie('prepr', 'eyJpdiI6InQxRzJ6b3p5YU9Qa2F6M0xLNDdtT3c9PSIsInZhbHVlIjoiNDJyQWNwNWhRY0JFNFVJamtXbHg0VE1uWnFZcU9FSEZncmMzM0ZCeldscUswRlFpXC9xckJFajJNNGM2MVUzMTZPTGhkVmFyUG8ramFNNWZxZ0JrUW5BelphKzRRbWlCbFZOMVk0WVoxcVo4PSIsIm1hYyI6ImFlYzg4OTFjZjhjNDhiNGMxNDU2MDY2OWQ1MGIyZjBmZWE3NDYyMGY0ZTEzOGIzYzIwODJlOGVjN2E5NGY1MmUifQ%3D%3D');
 
         var socket = new GraphlrSocketClient();
-        socket.bind(location.hostname+(location.port ? ':'+location.port: ''), readCookie('laravel_session'));
+        socket.bind(location.hostname+(location.port ? ':'+location.port: ''), readCookie('prepr'), 'prepr');
 
-        socket.subscribe('prepr:538:*', function(data){
+        socket.subscribe('prepr:4:*', function(data){
             console.log(data);
             console.log('prepr data');
         });
@@ -27,8 +27,6 @@
             console.log('112pers data');
         });
 
-//        var push = new GraphlrPushClient();
-//        push.init('Test Session cookie');
     </script>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
