@@ -1,3 +1,5 @@
+//GraphlrSocketClient Version 1.0 24-11-2016
+
 var GraphlrSocketClient = function(){
     this.socket = null;
     this.subscribed = [];

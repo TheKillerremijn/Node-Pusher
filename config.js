@@ -4,8 +4,8 @@ config.pushkeys = [
   {
     sessionUrl: "https://preprv4-nick.dmhdevelopment.nl/sessioninfo",
     environment: 'prepr',
-    public: "esTL8BHN5oqJ15W6umT5LA1MWoP2QDI5",
-    secret: "z79gqb8EN2pTz7plEifJ9NY4KOug312L"
+    public: "47AEED8DEAD3D58C75B7E294AB158",
+    secret: "6CC46592992BBAAA31A14C879F485"
   }
 ];
 
