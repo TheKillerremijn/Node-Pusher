@@ -8,7 +8,7 @@ exports.match = function(route, tomatch){
     for(var i=0;i<tomatchsplit.length;i++){
         if(tomatchsplit[i] == "*" || routesplit[i] == "*"){
 
-            if(routesplit.length <= i){
+            if(routesplit.length >= i || tomatchsplit.length >= i){
                 return true;
             }
 
@@ -20,8 +20,8 @@ exports.match = function(route, tomatch){
             return false;
         }
     }
-    // prepr:123456:*
-    // prepr:*     :test:abc
+    // prepr:*       :playlist:feed
+    // prepr:31138173:playlist:feed
 
 
     return true;
