@@ -33,7 +33,14 @@ exports.matchDirectional = function(route, tomatch){
     var tomatchsplit = tomatch.split(':');
 
     for(var i=0;i<tomatchsplit.length;i++){
-        if(routesplit[i] == "*") continue;
+        if(routesplit[i] == "*"){
+
+            if(routesplit.length >= i){
+                return true;
+            }
+
+            continue;
+        }
         if(tomatchsplit[i] == routesplit[i]){
             continue;
         }else{
