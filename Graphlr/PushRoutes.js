@@ -6,7 +6,7 @@ exports.match = function(route, tomatch){
     var tomatchsplit = tomatch.split(':');
 
     for(var i=0;i<tomatchsplit.length;i++){
-        if(tomatchsplit[i] == "*" || routesplit[i] == "*") return true;
+        if(tomatchsplit[i] == "*" || routesplit[i] == "*") continue;
         if(tomatchsplit[i] == routesplit[i]){
             continue;
         }else{
@@ -21,7 +21,7 @@ exports.matchDirectional = function(route, tomatch){
     var tomatchsplit = tomatch.split(':');
 
     for(var i=0;i<tomatchsplit.length;i++){
-        if(routesplit[i] == "*") return true;
+        if(routesplit[i] == "*") continue;
         if(tomatchsplit[i] == routesplit[i]){
             continue;
         }else{

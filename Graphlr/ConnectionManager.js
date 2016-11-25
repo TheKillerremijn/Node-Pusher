@@ -33,6 +33,10 @@ ConnectionManager.prototype.push = function(pushdata){
 
     var relevantConnections = this.getConnectionsByRoute(route);
 
+    if(relevantConnections.length <= 0){
+        return;
+    }
+
     for(var matchedroute in relevantConnections){
         for(var i=0;i<relevantConnections[matchedroute].length;i++){
 

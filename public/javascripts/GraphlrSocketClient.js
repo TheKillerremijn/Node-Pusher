@@ -42,7 +42,7 @@ GraphlrSocketClient.prototype.bind = function(addres, sessionid, environment){
             console.error('[GraphSocket] Something went very wrong');
             return;
         }
-        callback(data.data);
+        callback(data.data, data.dataroute);
     });
 };
 
