@@ -8,9 +8,8 @@ exports.match = function(route, tomatch){
     for(var i=0;i<tomatchsplit.length;i++){
         if(tomatchsplit[i] == "*" || routesplit[i] == "*"){
 
-            if(routesplit.length >= i || tomatchsplit.length >= i){
-                return true;
-            }
+            if(tomatchsplit[i] == "*" && routesplit.length == i) return true;
+            if(routesplit[i] == "*" && tomatchsplit.length == i) return true;
 
             continue;
         }
