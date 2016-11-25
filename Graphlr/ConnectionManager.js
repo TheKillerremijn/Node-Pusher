@@ -35,7 +35,7 @@ ConnectionManager.prototype.push = function(pushdata){
 
     console.log(relevantConnections);
     console.log(route);
-    console.log(connections);
+    console.log(this.connections);
 
     if(relevantConnections.length <= 0){
         return;
