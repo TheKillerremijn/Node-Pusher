@@ -21,7 +21,7 @@ router.post('/push', function(req, res, next){
         return;
     }
 
-    var jsondata = JSON.parse();
+    var jsondata = JSON.parse(req.body.data);
     var pushdata = {
         data: jsondata,
         route: req.body.route
