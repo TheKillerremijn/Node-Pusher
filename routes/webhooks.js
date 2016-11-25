@@ -14,12 +14,14 @@ router.post('/push', function(req, res, next){
     var publickey = req.body.public;
     var secret = req.body.secret;
 
+    console.log(req.body);
+
     if(connectionManager.verifyAuth(publickey, secret) == false){
         res.json({error: true, message: 'Not Authorized'});
         return;
     }
 
-    var jsondata = JSON.parse(req.body.data);
+    var jsondata = JSON.parse();
     var pushdata = {
         data: jsondata,
         route: req.body.route
