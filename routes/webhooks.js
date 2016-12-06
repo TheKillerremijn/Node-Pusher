@@ -21,7 +21,7 @@ router.post('/push', function(req, res, next){
         return;
     }
 
-    var jsondata = JSON.parse(req.body.data);
+    var jsondata = JSON.parse(decodeURI(req.body.data));
     var pushdata = {
         data: jsondata,
         route: req.body.route
@@ -36,3 +36,5 @@ module.exports = router;
 module.exports.socket = function(io){
     connectionManager.initSocket(io);
 };
+
+

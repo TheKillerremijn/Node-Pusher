@@ -13,10 +13,11 @@ var ConnectionManager = function(){
         {
             SessionCookie: "test",
             Environment: "",
-            Permitted: [],
+            Permitted: [
+                "*"
+            ],
             SubscribedTo: [
-                "prepr:538:playlist",
-                "112pers:*"
+                "prepr:*"
             ],
             Metadata: {},
             Channel: {
@@ -34,6 +35,7 @@ ConnectionManager.prototype.push = function(pushdata){
     var relevantConnections = this.getConnectionsByRoute(route);
 
     if(relevantConnections.length <= 0){
+        console.log('nothing listening');
         return;
     }
 

@@ -8,8 +8,9 @@ exports.match = function(route, tomatch){
     for(var i=0;i<tomatchsplit.length;i++){
         if(tomatchsplit[i] == "*" || routesplit[i] == "*"){
 
-            if(tomatchsplit[i] == "*" && routesplit.length == i) return true;
-            if(routesplit[i] == "*" && tomatchsplit.length == i) return true;
+            //is wildcard at end of route
+            if(routesplit[i] == "*" && routesplit.length-1 == i) return true;
+            if(tomatchsplit[i] == "*" && tomatchsplit.length-1 == i) return true;
 
             continue;
         }
