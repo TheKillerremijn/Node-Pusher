@@ -14,19 +14,26 @@ router.post('/push', function(req, res, next){
     var publickey = req.body.public;
     var secret = req.body.secret;
 
-    console.log(req.body);
-
     if(connectionManager.verifyAuth(publickey, secret) == false){
-        res.json({error: true, message: 'Not Authorized'});
-        return;
+        var e = new Error('Not Authorized');
+        e.status = 401;
+        return next(e);
     }
 
-    var jsondata = req.body;
+    // var jsondata = req.body;
+    var jsonbody;
+    try{
+        jsonbody = JSON.parse(req.body.data);
+    }catch(e){
+        return next(e);
+    }
+
     var pushdata = {
-        data: jsondata,
+        data: jsonbody,
         route: req.body.route
     };
     connectionManager.push(pushdata);
+    pushdata.error = false;
     res.json(pushdata);
 });
 

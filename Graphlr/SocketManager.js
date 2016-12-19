@@ -14,6 +14,7 @@ SocketManager.prototype.initServer = function(){
             SubscribedTo: [
             ],
             Environment: '',
+            Permitted: [],
             Metadata: {},
             Channel: {
                 type: "websocket",
